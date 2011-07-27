@@ -1,4 +1,5 @@
 <?php
+
 /*
   Plugin Name: DaBa-Galeria
   Description: A plugin based on Easy Picasa 1.1 by YiXia and arno gallery to fetch and show picasa pictures with multilingual text description.
@@ -60,28 +61,54 @@ function picasa_diapositives( $atts, $url )
             {
                 $summary = '';
             }
+            try
+            {
+                $titol = $photoEntry->getTitle()->getText();
+            } catch ( Exception $e )
+            {
+                $titol = '';
+            }
+            $fotoGegant = $mediaContentArray[0]->getUrl();
+            try
+            {
+                $foto = $mediaContentArray[0]->getUrl();//TODO aconseguir foto més petita
+            } catch ( Exception $e )
+            {
+                $foto = $fotoGegant;
+            }
+            try
+            {
+                $thumbnail = $mediaContentArray[0]->getUrl();//TODO aconseguir thumbnail
+            } catch ( Exception $e )
+            {
+                $thumbnail=$foto;
+            }
             if ( $lang != '' ) :
-                preg_match( '/\[' . $lang . '\](.*)\[\/' . $lang . '\]/', $summary, $matchesSummary );
+                $patro='/\[' . $lang . '\](.*)\[\/' . $lang . '\]/';
+                preg_match( $patro, $summary, $matchesSummary );
                 if ( isset( $matchesSummary[1] ) ):
                     $summary = $matchesSummary[1];
                 endif;
+                preg_match($patro, $titol, $matchesTitol);
+                if(isset ($matchesTitol[1])):
+                    $titol=$matchesTitol[1];
+                endif;
             endif;
-            $result.= $photoEntry->getTitle()->getText()
-                    . "&nbsp;" . $mediaContentArray[0]->getUrl()
-                    . "&nbsp;" . $summary . "<br />\n";
+            $result.='<a rel="' . $foto . '" href="' . $fotoGegant . '"/>';
+            $result.= '<img src="' . $thumbnail
+                    . '" alt="' . $summary
+                    . '" title="' . $titol
+                    . '"/>';
+            $result.='</a>';
         }
     } catch ( Exception $e )
     {
         return'';
     }
-    $result .= 'Hola';
+    $result = '<div class="daba-galeria">' . $result;
+    $result.='</div><!--daba-galeria-->';
     return $result;
 }
-
-load_plugin_textdomain( 'daba-galeria', false, $plugin_dir . '/languages' );
-add_shortcode( 'picasa', 'picasa_diapositives' );
-add_action( 'media_buttons', 'picasa_diapositives_add_mediabutton', 20 );
-wp_enqueue_script('daba-galeria', plugin_dir_url( __FILE__ ).'/galleria/galleria-1.2.4.min.js', 'jquery', '', true);
 
 function picasa_diapositives_add_mediabutton()
 {
@@ -90,3 +117,11 @@ function picasa_diapositives_add_mediabutton()
     $buttontips = __( 'Insert Picasa Photo(s)' );
     echo "<a class='thickbox' title='Add Picasa Image' id='easypicasa' href='$href'><img src='$imgsrc' alt='$buttontips' tip='$buttontips' /></a>";
 }
+
+load_plugin_textdomain( 'daba-galeria', false, $plugin_dir . '/languages' );
+add_shortcode( 'picasa', 'picasa_diapositives' );
+add_action( 'media_buttons', 'picasa_diapositives_add_mediabutton', 20 );
+wp_register_script( 'daba-galeria', plugin_dir_url( __FILE__ ) . 'galleria/galleria-1.2.4.js', 'jquery', '', true );
+wp_enqueue_script( 'daba-galeria' );
+wp_register_script( 'daba-galeria-inici', plugin_dir_url( __FILE__ ) . 'daba-galeria.js', 'daba-galeria', '', true );
+wp_enqueue_script( 'daba-galeria-inici' );

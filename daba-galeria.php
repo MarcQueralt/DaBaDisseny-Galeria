@@ -13,7 +13,7 @@ define( "PLUGINURI", WP_CONTENT_URL . '/plugins/' . dirname( plugin_basename( __
 
 function picasa_diapositives( $atts, $url )
 {
-//[picasa width="400" height="400" background="ffffff" autoplay="1" showcaption="1"]http://picasaweb.google.com/abttong/KTnkC02[/picasa]
+//[picasa width="300" height="300" background="ffffff" autoplay="1" showcaption="1"]http://picasaweb.google.com/abttong/KTnkC02[/picasa]
     $defaults = array(
         'width' => '300',
         'height' => '300',
@@ -38,7 +38,7 @@ function picasa_diapositives( $atts, $url )
     Zend_Loader::loadClass( 'Zend_Gdata_Photos' );
     Zend_Loader::loadClass( 'Zend_Gdata_ClientLogin' );
     Zend_Loader::loadClass( 'Zend_Gdata_AuthSub' );
-    $result = '';
+    $result = '<div class="daba-galeria" height="'.$height.'px" width="'.$width.'px" style="overflow:hidden;">';
     try
     {
         $gp = new Zend_Gdata_Photos();
@@ -100,9 +100,8 @@ function picasa_diapositives( $atts, $url )
         }
     } catch ( Exception $e )
     {
-        return'';
+        $result='';
     }
-    $result = '<div class="daba-galeria" height="'.$height.'px" width="'.$width.'px">' . $result;
     $result.='</div><!--daba-galeria-->';
     return $result;
 }

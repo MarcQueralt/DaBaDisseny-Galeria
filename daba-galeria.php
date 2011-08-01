@@ -2,7 +2,7 @@
 
 /*
   Plugin Name: DaBa-Galeria
-  Description: A plugin based on Easy Picasa 1.1 by YiXia and arno gallery to fetch and show picasa pictures with multilingual text description.
+  Description: A plugin based on <a href="http://wordpress.org/extend/plugins/easy-picasa/" target="_Blank">Easy Picasa 1.1 by YiXia</a> and <a href="http://galleria.aino.se/" target="_blank">aino gallery</a> to fetch and show picasa pictures with multilingual text description. 
   Version: 1.0
   Author: DaBa Disseny
   Author URI: http://www.dabadisseny.com
@@ -15,11 +15,8 @@ function picasa_diapositives( $atts, $url )
 {
 //[picasa width="400" height="400" background="ffffff" autoplay="1" showcaption="1"]http://picasaweb.google.com/abttong/KTnkC02[/picasa]
     $defaults = array(
-        'width' => '400',
-        'height' => '400',
-        'autoplay' => '0',
-        'showcaption' => '1',
-        'background' => BACKGROUND,
+        'width' => '300',
+        'height' => '300',
         'lang' => ''
     );
     extract( shortcode_atts( $defaults, $atts ) );
@@ -105,7 +102,7 @@ function picasa_diapositives( $atts, $url )
     {
         return'';
     }
-    $result = '<div class="daba-galeria">' . $result;
+    $result = '<div class="daba-galeria" height="'.$height.'px" width="'.$width.'px">' . $result;
     $result.='</div><!--daba-galeria-->';
     return $result;
 }

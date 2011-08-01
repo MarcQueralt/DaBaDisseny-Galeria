@@ -41,7 +41,7 @@ $.fn.getPicasa = function(opt){
 
 $.fn.getPicasa.defaults = {
   albuminsert:false,
-  picinsertsize:['400'],
+  picinsertsize:['300'],
   picinsertmulti:false
 }
 

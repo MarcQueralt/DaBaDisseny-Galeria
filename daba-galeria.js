@@ -4,13 +4,14 @@ $dabaGaleria(document).ready(function(){
     $dabaGaleria(".daba-galeria").each(function(){
         var w=$dabaGaleria(this).width();
         var h=$dabaGaleria(this).height();
-        alert(w);
-        alert(h);
+        $dabaGaleria(this).galleria({
+            width: w,
+            height: h
+        });
+
     });
-//    $dabaGaleria(".daba-galeria").galleria({
-//        width: 300,
-//        height: 300
-//    });
+    $dabaGaleria('.daba-galeria:odd').addClass('dabaGaleriaSenar');
+    $dabaGaleria('.daba-galeria:even').addClass('dabaGaleriaParell');
 });
 
 

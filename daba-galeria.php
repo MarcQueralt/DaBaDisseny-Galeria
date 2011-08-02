@@ -38,7 +38,7 @@ function picasa_diapositives( $atts, $url )
     Zend_Loader::loadClass( 'Zend_Gdata_Photos' );
     Zend_Loader::loadClass( 'Zend_Gdata_ClientLogin' );
     Zend_Loader::loadClass( 'Zend_Gdata_AuthSub' );
-    $result = '<div class="daba-galeria" height="'.$height.'px" width="'.$width.'px" style="overflow:hidden;">';
+    $result = '<div class="daba-galeria" style="overflow:hidden; height:'.$height.'px; width:'.$width.'px; max-height:'.$height.'px; max-width:'.$width.'px;">';
     try
     {
         $gp = new Zend_Gdata_Photos();
@@ -68,14 +68,17 @@ function picasa_diapositives( $atts, $url )
             $fotoGegant = $mediaContentArray[0]->getUrl();
             try
             {
-                $foto = $mediaContentArray[0]->getUrl();//TODO aconseguir foto més petita
+                $fotos=$photoEntry->getMediaGroup()->getThumbnail();
+                $foto = $fotos[2];
+                $foto=$foto->getUrl();
             } catch ( Exception $e )
             {
                 $foto = $fotoGegant;
             }
             try
             {
-                $thumbnail = $mediaContentArray[0]->getUrl();//TODO aconseguir thumbnail
+                $thumbnails = $photoEntry->getMediaGroup()->getThumbnail();
+                $thumbnail = $thumbnails[0]->getUrl();
             } catch ( Exception $e )
             {
                 $thumbnail=$foto;
@@ -100,9 +103,10 @@ function picasa_diapositives( $atts, $url )
         }
     } catch ( Exception $e )
     {
-        $result='';
+        $result.='';
     }
     $result.='</div><!--daba-galeria-->';
+    $gp=null;
     return $result;
 }
 

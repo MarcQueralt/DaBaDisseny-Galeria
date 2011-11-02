@@ -94,7 +94,7 @@ function picasa_diapositives( $atts, $url )
                     $titol=$matchesTitol[1];
                 endif;
             endif;
-            $result.='<a rel="' . $foto . '" href="' . $fotoGegant . '"/>';
+            $result.='<a rel="' . $foto . '" href="' . $fotoGegant . '">';
             $result.= '<img src="' . $thumbnail
                     . '" alt="' . $summary
                     . '" title="' . $titol

@@ -5,6 +5,8 @@
   Author: DaBa Disseny
   Author URI: http://www.dabadisseny.com
 == Change Log ==
+===1.1.1===
+*Correction of img tag closing bug
 ===1.1===
 *Path consideration
 ===1.0===
